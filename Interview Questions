@@ -1,0 +1,74 @@
+1. The Book Game
+
+You are given an array A of K integers where Ai denotes page number of a book. To compute the score, you can either add or multiply the last digit of the page numbers.
+You have to find the maximum score you can get. Since the score can be quite large, output the score modulo 1000000007
+
+Note: The book contains N pages. Also, you need to follow the order in which the page numbers are given in the array. Initially, your score is 0.
+
+ 
+
+Input format :
+
+First line: Two space seperated integers N and K.
+Next line: K space seperated integers denoting the page numbers.
+Output format :
+
+Output the maximum score you can get. Print it modulo 1000000007
+Input Constraints
+
+SAMPLE INPUT 
+50 3
+2 35 23
+SAMPLE OUTPUT 
+30
+Explanation
+Last digit of all page numbers are: 2, 5, and 3.
+Initial score = 0
+We add 2 to the score which now becomes 2, multiply with 5 making the score 10, finally we multiply with 3 making the score 30 which is the maximum score.
+
+Output 30 % (10^9+7) = 30.
+
+
+Java 8:
+import java.io.*;
+import java.util.*;
+public class TestClass {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter wr = new PrintWriter(System.out);
+         String[] input = br.readLine().split(" ");
+         int n = Integer.parseInt(input[0]);
+         int k = Integer.parseInt(input[1]);
+         String[] arr_pages = br.readLine().split(" ");
+         int[] pages = new int[k];
+         for(int i_pages=0; i_pages<arr_pages.length; i_pages++)
+         {
+         	pages[i_pages] = Integer.parseInt(arr_pages[i_pages]);
+         }
+         int out_ = getMaxScore(k, pages, n);
+         System.out.println(out_);
+         wr.close();
+         br.close();
+    }
+    static int getMaxScore(int k, int[] pages, int n){
+        // Write your code here
+        
+        long maxScore = 0;
+        long mod = 1000000007;
+        for(int i=0;i<k;i++) {
+            long pageNumber = pages[i];
+            
+            long lastDigit = pageNumber % 10L;
+            if(lastDigit < 2)
+                maxScore += lastDigit;
+            else {
+                // If still 0 then,
+                if(maxScore == 0)
+                    maxScore = 1;
+                maxScore *= lastDigit;
+            }
+            maxScore %= mod;
+        }
+        return (int)maxScore;
+    }
+}
